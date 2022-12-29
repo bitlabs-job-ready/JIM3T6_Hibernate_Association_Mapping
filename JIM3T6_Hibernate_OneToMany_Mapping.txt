@@ -2,7 +2,7 @@ In Hibernate, a one-to-many relationship can be mapped using the @OneToMany anno
 
 For example, consider the following two entities:
 
-Copy code
+
 @Entity
 public class Customer {
   @Id
