@@ -1,0 +1,30 @@
+In Hibernate, a one-to-many relationship can be mapped using the @OneToMany annotation. This annotation is used to define a one-to-many relationship between two entities, where one entity has a collection of the other entity.
+
+For example, consider the following two entities:
+
+Copy code
+@Entity
+public class Customer {
+  @Id
+  private Long id;
+
+  private String name;
+
+  @OneToMany(mappedBy = "customer")
+  private List<Order> orders;
+}
+
+@Entity
+public class Order {
+  @Id
+  private Long id;
+
+  private String description;
+
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
+}
+In this example, the Customer entity has a one-to-many relationship with the Order entity, as a customer can have multiple orders. The @OneToMany annotation is used to define this relationship on the orders field in the Customer entity, and the mappedBy attribute specifies that the customer field in the Order entity is the inverse side of the relationship.
+
+On the other hand, the Order entity has a many-to-one relationship with the Customer entity, as an order can only be associated with a single customer. This relationship is defined using the @ManyToOne annotation on the customer field in the Order entity, and the @JoinColumn annotation is used to specify the foreign key column in the orders table that maps to the primary key of the customers table.

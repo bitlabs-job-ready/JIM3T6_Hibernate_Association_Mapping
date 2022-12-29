@@ -1,0 +1,104 @@
+
+In Hibernate, you can use the @OneToOne annotation to map a one-to-one relationship between two Java objects.
+
+Here is an example of how you could map a one-to-one relationship between a "Person" class and an "Address" class, where a person has one address:
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Person {
+    @Id
+    @GeneratedValue
+    private long id;
+
+    private String firstName;
+    private String lastName;
+
+    @OneToOne
+    private Address address;
+
+    // Getters and setters for the fields
+}
+
+@Entity
+public class Address {
+    @Id
+    @GeneratedValue
+    private long id;
+
+    private String street;
+    private String city;
+    private String state;
+    private String zipCode;
+
+    @OneToOne(mappedBy = "address")
+    private Person person;
+
+    // Getters and setters for the fields
+}
+
+To create and persist these objects and their relationship in the database, you can use the following steps:
+
+Create a Hibernate session factory and open a Hibernate session.
+
+Create a new Person object and a new Address object.
+
+Set the Address object's person field to the Person object.
+
+Set the Person object's address field to the Address object.
+
+Use the session's save() method to persist the Person and Address objects to the database.
+
+Close the session.
+Here is an example of how you could do this in code:
+
+Copy code
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a Hibernate session factory
+        SessionFactory factory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .buildSessionFactory();
+
+        // Open a Hibernate session
+        Session session = factory.openSession();
+
+        // Begin a transaction
+        session.beginTransaction();
+
+        // Create a new Person object
+        Person person = new Person();
+        person.setFirstName("John");
+        person.setLastName("Doe");
+
+        // Create a new Address object
+        Address address = new Address();
+        address.setStreet("123 Main St.");
+        address.setCity("New York");
+        address.setState("NY");
+        address.setZipCode("12345");
+
+        // Set the Address object's person field to the Person object
+        address.setPerson(person);
+
+        // Set the Person object's address field to the Address object
+        person.setAddress(address);
+
+        // Persist the Person and Address objects to the database
+        session.save(person);
+        session.save(address);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the session
+        session.close();
+    }
+}
