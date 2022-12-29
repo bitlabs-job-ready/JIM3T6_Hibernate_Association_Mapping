@@ -2,7 +2,7 @@ In Hibernate, a many-to-many relationship can be mapped using the @ManyToMany an
 
 For example, consider the following two entities:
 
-Copy code
+
 @Entity
 public class Student {
   @Id
